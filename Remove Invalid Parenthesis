@@ -1,0 +1,68 @@
+class Solution {
+private:
+    // 17 - Dec - 2022.
+    int MIN;
+    bool isValid(string s) {
+        if(MIN != INT_MAX && s.size() != MIN) return false;
+        char a = ')';
+        stack<char> st;
+        for(char &i : s) {
+            if(i >= 'a' && i <= 'z') continue;
+            if(i == '(') 
+                st.push(i);
+            else {
+                if(st.empty()) return false;
+                char top = st.top();
+                if((top == '(' && i == a)) 
+                    st.pop();
+                else return false;
+            }
+        }
+        return (st.empty());
+    }
+public:
+    vector<string> removeInvalidParentheses(string s) {
+        int right = 0, left = 0;
+        for(auto &i : s) {
+            if(i == '(') left++;
+            else if(i == ')') right++;
+        }
+        
+        unordered_set<string> SET;
+        
+        queue<pair<int, pair<int, string>>> q;
+        q.push({left, {right, s}});
+        MIN = INT_MAX;
+        
+        while(!q.empty()) {
+            auto i = q.front();
+            q.pop();
+            int Left = i.first, Right = i.second.first;
+            string curr = i.second.second;
+            
+            if(Left == Right && isValid(curr)) {
+                MIN = curr.size();
+                SET.insert(curr);
+            }
+            
+            if(MIN == INT_MAX || curr.size() > MIN) {
+                int n = curr.size();
+                char main = (Left < Right) ? ')' : '(';
+                string next;
+                for(int i = 0; i < n; i++) {
+                    if(curr[i] == main) {
+                        next = curr.substr(0, i) + curr.substr(i + 1, n - i + 1);
+                        if(Left == Right) {
+                            q.push({Left, {Right - 1, next}});
+                            q.push({Left - 1, {Right, next}});
+                        }
+                        else if(main == '(') q.push({Left - 1, {Right, next}});
+                        else q.push({Left, {Right - 1, next}});
+                    }
+                }
+            }
+        }
+        
+        return {SET.begin(), SET.end()};
+    }
+};
