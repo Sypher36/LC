@@ -1,0 +1,215 @@
+Part 1:
+#include <stdio.h>
+#include <conio.h>
+
+void PrintArray(int arr[], int size) {
+	printf("Printing array: \n");
+	for(int i = 0; i < size; i++) {
+		printf("%d", arr[i]);
+	}
+	printf("\n");
+}
+
+void BubbleSort(int arr[], int size) {
+	for(int i = 0; i < size; i++) {
+		for(int j = 0; j < size - 1; j++) {
+			if(arr[j] > arr[j + 1]) {
+				int temp = arr[j];
+				arr[j] = arr[j + 1];
+				arr[j + 1] = temp;
+			}
+		}
+	}
+}
+
+int main() { // DS PRACTICAL.
+	/*
+	Time complexity: 
+	Best case: O(n^2).
+	Worst case: O(n^2).
+	Space complexity:
+	O(1). [i.e. constant]
+	*/
+	clrscr();
+	int n;
+	printf("Enter the number of elements: ");
+	scanf("%d", &n);
+	int arr[100];
+	for(int i = 0; i < n; i++) {
+		printf("Enter the elements: ");
+		scanf("%d", &arr[i]);
+	}
+	PrintArray(arr, n);
+	BubbleSort(arr, n);
+	PrintArray(arr, n);
+	getch();
+	return false;
+}
+
+Part 2:
+OPTIMIZED BUBBLE SORT.
+#include <stdio.h>
+#include <conio.h>
+
+void PrintArray(int arr[], int size) {
+	printf("\nPrinting array: \n");
+	for(int i = 0; i < size; i++) {
+		printf("%d ", arr[i]);
+	}
+	printf("\n");
+}
+
+void BubbleSort(int arr[], int size) {
+	for(int i = size - 1; i > 0; i--) {
+		bool swapped = false;
+		for(int j = 0; j < i; j++) {
+			if(arr[j] > arr[j + 1]) {
+				swapped = true;
+				int temp = arr[j];
+				arr[j] = arr[j + 1];
+				arr[j + 1] = temp;
+			}
+		}
+	// Very impostant part.
+		if(!swapped) {
+			printf("Breaking on %d Pass. ", n - i);
+			break;
+		}
+	}
+}
+
+int main() { // DS PRACTICAL.
+	/*
+	Time complexity: 
+	Best case: O(n).
+	Worst case: O(n^2).
+	Space complexity:
+	O(1). [i.e. constant]
+	*/
+	clrscr();
+	int n;
+	printf("Enter the number of elements: ");
+	scanf("%d", &n);
+	int arr[100];
+	for(int i = 0; i < n; i++) {
+		printf("Enter the elements: ");
+		scanf("%d", &arr[i]);
+	}
+	PrintArray(arr, n);
+	BubbleSort(arr, n);
+	PrintArray(arr, n);
+	getch();
+	return false;
+}
+
+Pass 3:
+Recursive Bubble Sort. -[Suyog Kasture] [Roll No: 53] [8830264700 (WA) -> contact me for recursion assistance]
+#include <stdio.h>
+#include <conio.h>
+
+void PrintArray(int arr[], int size) {
+    printf("\nPrinting array: ");
+    for(int i = 0; i < size; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
+
+void RecursiveBubbleSort(int row, int j, int arr[]) {
+    if(!row) {
+        return;
+    }
+    if(j < row) {
+        if(arr[j] > arr[j + 1]) {
+            int temp = arr[j];
+            arr[j] = arr[j + 1];
+            arr[j + 1] = temp;
+        }
+        RecursiveBubbleSort(row, j + 1, arr);
+    }
+    else RecursiveBubbleSort(row - 1, 0, arr);
+}
+
+int main() {
+    /*
+    Time complexity: 
+        Best case: O(n^2).
+        Worst case: O(n^2).
+    Space complexity:
+        O(n).
+     */
+    clrscr();
+    int n;
+    printf("Enter the number of elements: ");
+    scanf("%d", &n);
+    int arr[100];
+    for(int i = 0; i < n; i++) {
+        printf("Enter the elements: ");
+        scanf("%d", &arr[i]);
+    }
+    PrintArray(arr, n);
+    RecursiveBubbleSort(n - 1, 0, arr);
+    PrintArray(arr, n);
+    getch();
+    return 0;
+}
+
+Part 4: 
+// Optimized Recursive Bubble Sort.
+// Any doubts? [WA me -> 8830264700]
+#include <stdio.h>
+#include <conio.h>
+
+void PrintArray(int arr[], int size) {
+    printf("\nPrinting array: ");
+    for(int i = 0; i < size; i++) {
+        printf("%d", arr[i]);
+    }
+    printf("\n");
+}
+
+void RecursiveBubbleSort(int row, int j, int arr[], bool swapped) {
+    if(!row) {
+        return;
+    }
+    if(j < row) {
+        if(arr[j] > arr[j + 1]) {
+            int temp = arr[j];
+            arr[j] = arr[j + 1];
+            arr[j + 1] = temp;
+            RecursiveBubbleSort(row, j + 1, arr, true);
+        }
+        else RecursiveBubbleSort(row, j + 1, arr, swapped);
+    }
+    else {
+        if(!swapped) {
+            printf("Breaking at %d. ", n - row);
+            return;
+        }
+        else RecursiveBubbleSort(row - 1, 0, arr, false);
+    }
+}
+
+int main() {
+    /*
+    Time complexity: (OPTIMIZED)
+        Best case: O(n).
+        Worst case: O(n^2).
+    Space complexity:
+        O(n).
+     */
+    clrscr();
+    int n;
+    printf("Enter the number of elements: ");
+    scanf("%d", &n);
+    int arr[100];
+    for(int i = 0; i < n; i++) {
+        printf("Enter the elements: ");
+        scanf("%d", &arr[i]);
+    }
+    PrintArray(arr, n);
+    RecursiveBubbleSort(n - 1, 0, arr, false);
+    PrintArray(arr, n);
+    getch();
+    return 0;
+}
